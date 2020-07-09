@@ -17,10 +17,33 @@ constructor(){
   //This super() calls teh constructor for the component class in react.
   super();
 
-}
+  this.state = {
+    userName: "dub",
+    todoItems: [
+      {action: "Get a jerb", done: false},
+      {action: "pay bills", done: true},
+      {action: "cook", done: false},
+      {action: "finish course", done: false},
+      {action: "sleep", done: true}
+    ]
+  }
+
+}//end of constructor
+
   // using '=>' (lambda) syntax the return is implied and the return keyword is not needed. The scope around the body of the function is also not needed.
   render = () => 
   <div>
-
+    <ToDoBanner
+      displayName = {this.state.userName}
+      tasks = {this.state.todoItems}
+    />
   </div>
 };
+
+export class ToDoBanner extends Component{
+  render = () =>
+  <h4 className = "bg-primary text-white text-center p-2">
+    {this.props.displayName}'s to do list ({this.props.tasks.filter(task => !task.done).length} left.)
+
+  </h4>
+}
