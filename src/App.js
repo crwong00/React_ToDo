@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {ToDoBanner} from './ToDoBanner';
+import {ToDoRow} from './ToDoRow';
 
 export default class App extends Component{
   //Above is a class called App that extends the functionality of teh component class.
@@ -30,6 +32,15 @@ constructor(){
 
 }//end of constructor
 
+// If the todo row component's "done" property experiences a change event (checking the done box in the UI) then the todorow component calls aq callback method called toggletodo.(below) and passes toggletodo the checked todo item.
+todoTableRows = (isTaskDone) => this.state.todoItems.filter(x => x.done === isTaskDone).map(notCompleted => <ToDoRow key= {notCompleted.action} item = {notCompleted} callback = {this.toggleTodo} />)
+
+// The toggleTodo method is invoked as a callback when  the ToDoRow component hads a change event to the "done" property
+// .setState allows the data to be updated.
+toggleTodo = (todo) => this.setState({
+  todoItems: this.state.todoItems.map(item => item.action === todo.action ? {...item, done:!item.done} : item)
+})
+
   // using '=>' (lambda) syntax the return is implied and the return keyword is not needed. The scope around the body of the function is also not needed.
   render = () => 
   <div>
@@ -37,13 +48,19 @@ constructor(){
       displayName = {this.state.userName}
       tasks = {this.state.todoItems}
     />
+  
+  <table className = "table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>done</th>
+      </tr>
+    </thead>
+    <tbody>
+      {this.todoTableRows(false)}
+    </tbody>
+
+  </table>
+
   </div>
 };
-
-export class ToDoBanner extends Component{
-  render = () =>
-  <h4 className = "bg-primary text-white text-center p-2">
-    {this.props.displayName}'s to do list ({this.props.tasks.filter(task => !task.done).length} left.)
-
-  </h4>
-}
