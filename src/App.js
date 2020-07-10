@@ -4,7 +4,7 @@ import './App.css';
 import {ToDoBanner} from './ToDoBanner';
 import {ToDoRow} from './ToDoRow';
 import{ToDoCreator} from './ToDoCreator';
-import { findAllByTestId } from '@testing-library/react';
+import {VisibilityControl} from './VisibiltyControl';
 
 export default class App extends Component{
   //Above is a class called App that extends the functionality of teh component class.
@@ -62,8 +62,9 @@ createNewTodoCallback= (newTask) => {
      {action: "fish", done: false,},
      {action: "meet Jane", done: false},
      {action: "die", done: false}
-     ]}
- );
+     ],
+     showCompleted: true
+    });
  }
 
   // using '=>' (lambda) syntax the return is implied and the return keyword is not needed. The scope around the body of the function is also not needed.
@@ -91,7 +92,14 @@ createNewTodoCallback= (newTask) => {
     </tbody>
 
   </table>
-
+  <div className = "bg-secondary text-white text-center p-2">
+    <VisibilityControl 
+    description="Completed Tasks"
+    isChecked={this.state.showCompleted}
+    callback={checked => this.setState({showCompleted: checked})}
+    />
+  </div>
+{this.state.showCompleted &&
   <table className = "table table-striped table-bordered">
     <thead>
       <tr>
@@ -104,6 +112,6 @@ createNewTodoCallback= (newTask) => {
     </tbody>
 
   </table>
-
+}
   </div>
 };
